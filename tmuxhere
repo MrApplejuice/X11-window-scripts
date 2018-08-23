@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tmux -S /tmp/tmux-$( md5sum <<< $(basename $(readlink -e .) ) | sed 's/ *-//'  )  $@
+
