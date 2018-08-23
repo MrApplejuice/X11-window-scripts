@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Wrapper-script that allows meld to integrate with tools
+# "git diff". Not really necessary, since meld now has
+# git integration but I still use it.
+
+meld $2 $5

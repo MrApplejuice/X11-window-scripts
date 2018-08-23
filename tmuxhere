@@ -1,4 +1,15 @@
 #!/bin/bash
 
+# This little script derives the canonical path
+# of the current directory, and maps it to its
+# own tmux-socket using md5sum as a utility.
+
+# This allows to start multiple tmux servers 
+# that are attached to different unique paths.
+
+# Very useful when juggling with different 
+# environment vairables for different projects.
+
+
 tmux -S /tmp/tmux-$( md5sum <<< $(basename $(readlink -e .) ) | sed 's/ *-//'  )  $@
 
