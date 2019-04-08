@@ -19,6 +19,7 @@ while read width height xoffset yoffset; do
 done < $tmpfile 
 rm $tmpfile
 
+echo "Found $count screens"
 
 
 window_id=$(xdotool getactivewindow)
