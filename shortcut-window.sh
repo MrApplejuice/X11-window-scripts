@@ -42,7 +42,7 @@ if [ "$1" == "store" ] ; then
     mv $config_file.2 $config_file
     echo "$name $winid" >> $config_file
     
-    notify-send --urgency=low -i info "Assinged '$name' => '`xdotool getwindowname $winid`'"
+    notify-send --urgency=low -i info "Assigned '$name' => '`xdotool getwindowname $winid`'"
     
     exit 0
 fi
