@@ -1,4 +1,4 @@
-  #!/bin/bash
+#!/bin/bash
 
 # This tool allows a user to create a shortcut to quickly activate a certain
 # window in X11. Window key shortcuts are registered globally, therefore, one
