@@ -41,6 +41,36 @@ function find_window() {
     echo $winid
 }
 
+if [ $1 == "help" ] || [ $1 == "--help" ]; then
+    cat <<EOF
+shortcut-window.sh command [command-args]
+
+Utility that allows to assign keys to open X-windows and send keyboard
+shortcuts to keyed windows. It is particular useful when used in with
+custom shortcuts in a window manager. This tool then can be used to assign
+keyboard shortcuts to windows like in a RTS game.
+
+Commands:
+
+store key         Store the currently active window under the key
+                  `key`. Example: "shortcut-window.sh store window-1"
+activate key      Activate the window that is stored udner the
+                  given `key` name. Example:
+                  "shortcut-window.sh activate window-1"
+rec_key key keyid Store a key combination that can be sent to a window
+                  that as an assigned key `key` refers to the name of
+                  a key assigned to a window using the "store" command.
+                  `keyid` is an identifier that is used to store the
+                  key under. A popup will be shown that allows a user
+                  to enter a key combination that sahll be sent to the
+                  window that `key` refers to. The combination of
+                  window+shortcut will be stored under the key `keyid`.
+send_key keyid    Send the previously stored key combination to the 
+                  stored window.
+EOF
+    exit 0
+fi
+
 if [ "$1" == "store" ] ; then
     if [ -z "$2" ] ; then
          notify-send --urgency=low -i error "No name for window specified."
@@ -110,5 +140,5 @@ if [ "$1" == "send_key" ] ; then
     exit 0
 fi
 
-echo "Invalid argument: $1"
+echo "Invalid argument: $1 (use --help to show help)"
 exit 1
