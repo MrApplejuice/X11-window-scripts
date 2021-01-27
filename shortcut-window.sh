@@ -53,7 +53,7 @@ function find_window() {
     echo $winid
 }
 
-if [ $1 == "help" ] || [ $1 == "--help" ]; then
+if [ "$1" == "help" ] || [ "$1" == "--help" ]; then
     cat <<EOF
 shortcut-window.sh command [command-args]
 
