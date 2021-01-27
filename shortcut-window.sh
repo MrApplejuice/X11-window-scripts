@@ -29,7 +29,7 @@ function clear_name() {
 
 function find_window_name() {
     name=$( clear_name "$1" )
-    winname=$( awk '{ print $3 }' <<< "$line" | tr -d -c '[a-zA-Z0-9_.*]' )
+    winname=$( awk '{ print $3 }' <<< "$line" | tr -d -c '[a-zA-Z0-9_.*+]' )
     echo $winname
 }
 
