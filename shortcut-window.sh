@@ -27,6 +27,12 @@ function clear_name() {
     tr -dc '[a-zA-Z0-9]' <<< "$1"
 }
 
+function find_window_name() {
+    name=$( clear_name "$1" )
+    winname=$( awk '{ print $3 }' <<< "$line" | tr -d -c '[a-zA-Z0-9_.*]' )
+    echo $winname
+}
+
 function find_window() {
     name=$( clear_name "$1" )
     if ! line=$( grep "^$name " $config_file ) ; then
@@ -35,8 +41,14 @@ function find_window() {
     fi
     winid=$( awk '{ print $2 }' <<< "$line" )
     if ! xdotool getwindowname $winid > /dev/null ; then
-         notify-send --urgency=low -i error "No window stored using name '$name'"
-         exit 1
+        windowname=$( find_window_name "$2" )
+        winregex="$( sed 's/_/ /g' <<< $windowname )"
+        winid=""
+        [ ! -z "$windowname" ] && winid=$(xdotool search --name "^$winregex$" | head -n1 )
+        if [ -z "$winid" ] ; then
+            notify-send --urgency=low -i error "No window stored or found using name '$name'"
+            exit 1
+        fi
     fi
     echo $winid
 }
@@ -82,10 +94,12 @@ if [ "$1" == "store" ] ; then
          exit 1
     fi
     
+    winname=$(xdotool getwindowname $winid | sed -E 's/[^a-zA-Z0-9 ]/./g;s/ /_/g;s/\.+/.+/g')
+    
     name=$( clear_name "$2" )
     grep -v "^$name " $config_file > $config_file.2
     mv $config_file.2 $config_file
-    echo "$name $winid" >> $config_file
+    echo "$name $winid $winname" >> $config_file
     
     notify-send --urgency=low -i info "Assigned '$name' => '`xdotool getwindowname $winid`'"
     
