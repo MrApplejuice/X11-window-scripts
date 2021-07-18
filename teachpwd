@@ -1,0 +1,16 @@
+#!/bin/bash
+
+salt=$(rndpwd)
+the_pwd=$( ( echo -n $salt ; zenity --password --title "Practice password" ) | md5sum)
+while true ; do
+	if [ "$the_pwd" = "$( ( echo -n $salt ; zenity --password --title "Test if you remember it!" ) | md5sum )" ] ; then
+		zenity --info --text "Correct! :)"
+		next_time=$[ 10 + $RANDOM % 60 ]
+		echo -n "Next check in $next_time minutes - " ; date
+		sleep ${next_time}m
+	else
+		zenity --error --text "WRONG! Try again!"
+	fi
+done
+
+
